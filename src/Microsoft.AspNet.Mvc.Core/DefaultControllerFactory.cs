@@ -119,6 +119,14 @@ namespace Microsoft.AspNet.Mvc
                     }
                 },
                 {
+                    typeof(ITempDataDictionary),
+                    (context) =>
+                    {
+                        var serviceProvider = context.HttpContext.RequestServices;
+                        return serviceProvider.GetRequiredService<ITempDataDictionary>();
+                    }
+                },
+                {
                     typeof(ActionBindingContext),
                     (context) =>
                     {

@@ -679,6 +679,7 @@ namespace Microsoft.AspNet.Mvc.Razor
                 actionContext,
                 Mock.Of<IView>(),
                 null,
+                Mock.Of<ITempDataDictionary>(),
                 writer);
         }
 

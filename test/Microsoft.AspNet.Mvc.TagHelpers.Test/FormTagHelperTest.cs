@@ -382,6 +382,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 Mock.Of<IView>(),
                 new ViewDataDictionary(
                     new DataAnnotationsModelMetadataProvider()),
+                Mock.Of<ITempDataDictionary>(),
                 TextWriter.Null);
         }
     }

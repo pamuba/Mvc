@@ -1965,6 +1965,8 @@ namespace Microsoft.AspNet.Mvc
             httpContext.SetupGet(c => c.Response).Returns(httpResponse);
             httpContext.Setup(o => o.RequestServices.GetService(typeof(IOutputFormattersProvider)))
                        .Returns(mockFormattersProvider.Object);
+            httpContext.Setup(o => o.RequestServices.GetService(typeof(ITempDataDictionary)))
+                       .Returns(new Mock<ITempDataDictionary>().Object);
             httpResponse.Body = new MemoryStream();
 
             var options = new Mock<IOptions<MvcOptions>>();
@@ -2044,6 +2046,8 @@ namespace Microsoft.AspNet.Mvc
             var context = new Mock<HttpContext>();
             context.SetupGet(c => c.Items)
                    .Returns(new Dictionary<object, object>());
+            context.Setup(c => c.RequestServices.GetService(typeof(ITempDataDictionary)))
+                       .Returns(new Mock<ITempDataDictionary>().Object);
 
             var actionContext = new ActionContext(context.Object, new RouteData(), actionDescriptor);
 

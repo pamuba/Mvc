@@ -114,6 +114,15 @@ namespace Microsoft.AspNet.Mvc.Rendering
         }
 
         /// <inheritdoc />
+        public ITempDataDictionary TempData
+        {
+            get
+            {
+                return ViewContext.TempData;
+            }
+        }
+
+        /// <inheritdoc />
         public IHtmlEncoder HtmlEncoder { get; }
 
         /// <inheritdoc />
@@ -412,6 +421,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
             var templateBuilder = new TemplateBuilder(_viewEngine,
                                                       ViewContext,
                                                       ViewData,
+                                                      TempData,
                                                       modelExplorer,
                                                       htmlFieldName,
                                                       templateName,
@@ -450,7 +460,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
             var view = viewEngineResult.View;
             using (view as IDisposable)
             {
-                var viewContext = new ViewContext(ViewContext, view, newViewData, writer);
+                var viewContext = new ViewContext(ViewContext, view, newViewData, TempData, writer);
                 await viewEngineResult.View.RenderAsync(viewContext);
             }
         }
@@ -670,6 +680,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
                 _viewEngine,
                 ViewContext,
                 ViewData,
+                TempData,
                 modelExplorer,
                 htmlFieldName,
                 templateName,

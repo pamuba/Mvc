@@ -12,6 +12,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         private IViewEngine _viewEngine;
         private ViewContext _viewContext;
         private ViewDataDictionary _viewData;
+        private ITempDataDictionary _tempData;
         private ModelExplorer _modelExplorer;
         private object _model;
         private ModelMetadata _metadata;
@@ -23,6 +24,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         public TemplateBuilder([NotNull] IViewEngine viewEngine,
                                [NotNull] ViewContext viewContext,
                                [NotNull] ViewDataDictionary viewData,
+                               [NotNull] ITempDataDictionary tempData,
                                [NotNull] ModelExplorer modelExplorer,
                                string htmlFieldName,
                                string templateName,
@@ -32,6 +34,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
             _viewEngine = viewEngine;
             _viewContext = viewContext;
             _viewData = viewData;
+            _tempData = tempData;
             _modelExplorer = modelExplorer;
             _htmlFieldName = htmlFieldName;
             _templateName = templateName;
@@ -92,7 +95,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
             var visitedObjectsKey = _model ?? _modelExplorer.ModelType;
             viewData.TemplateInfo.AddVisited(visitedObjectsKey);
 
-            var templateRenderer = new TemplateRenderer(_viewEngine, _viewContext, viewData, _templateName, _readOnly);
+            var templateRenderer = new TemplateRenderer(_viewEngine, _viewContext, viewData, _tempData, _templateName, _readOnly);
 
             return templateRenderer.Render();
         }

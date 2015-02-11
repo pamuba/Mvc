@@ -170,6 +170,10 @@ namespace Microsoft.AspNet.Mvc
             yield return describe.Singleton<IApiDescriptionGroupCollectionProvider,
                 ApiDescriptionGroupCollectionProvider>();
             yield return describe.Transient<IApiDescriptionProvider, DefaultApiDescriptionProvider>();
+
+            // Temp Data
+            yield return describe.Scoped<ITempDataProvider, SessionStateTempDataProvider>();
+            yield return describe.Scoped<ITempDataDictionary, TempDataDictionary>();
         }
     }
 }

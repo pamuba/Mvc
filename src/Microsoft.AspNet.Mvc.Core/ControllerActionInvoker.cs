@@ -59,6 +59,9 @@ namespace Microsoft.AspNet.Mvc.Core
 
         protected override void ReleaseInstance(object instance)
         {
+            var serviceProvider = ActionContext.HttpContext.RequestServices;
+            var tempData = serviceProvider.GetRequiredService<ITempDataDictionary>();
+            tempData.Save();
             _controllerFactory.ReleaseController(instance);
         }
 

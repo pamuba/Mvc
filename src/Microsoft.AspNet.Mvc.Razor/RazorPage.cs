@@ -108,6 +108,18 @@ namespace Microsoft.AspNet.Mvc.Razor
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ITempDataDictionary"/> from the <see cref="ViewContext"/>.
+        /// </summary>
+        /// <remarks>Returns null if <see cref="ViewContext"/> is null.</remarks>
+        public ITempDataDictionary TempData
+        {
+            get
+            {
+                return (ViewContext == null) ? null : ViewContext.TempData;
+            }
+        }
+
         /// <inheritdoc />
         public Action<TextWriter> RenderBodyDelegate { get; set; }
 

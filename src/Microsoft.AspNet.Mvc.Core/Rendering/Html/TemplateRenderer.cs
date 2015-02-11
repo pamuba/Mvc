@@ -62,6 +62,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
 
         private ViewContext _viewContext;
         private ViewDataDictionary _viewData;
+        private ITempDataDictionary _tempData;
         private IViewEngine _viewEngine;
         private string _templateName;
         private bool _readOnly;
@@ -70,12 +71,14 @@ namespace Microsoft.AspNet.Mvc.Rendering
             [NotNull] IViewEngine viewEngine,
             [NotNull] ViewContext viewContext,
             [NotNull] ViewDataDictionary viewData,
+            [NotNull] ITempDataDictionary tempData,
             string templateName,
             bool readOnly)
         {
             _viewEngine = viewEngine;
             _viewContext = viewContext;
             _viewData = viewData;
+            _tempData = tempData;
             _templateName = templateName;
             _readOnly = readOnly;
         }
@@ -98,7 +101,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
                         var view = viewEngineResult.View;
                         using (view as IDisposable)
                         {
-                            var viewContext = new ViewContext(_viewContext, viewEngineResult.View, _viewData, writer);
+                            var viewContext = new ViewContext(_viewContext, viewEngineResult.View, _viewData, _tempData, writer);
                             var renderTask = viewEngineResult.View.RenderAsync(viewContext);
                             TaskHelper.WaitAndThrowIfFaulted(renderTask);
                             return writer.ToString();
@@ -109,7 +112,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
                 Func<IHtmlHelper, string> defaultAction;
                 if (defaultActions.TryGetValue(viewName, out defaultAction))
                 {
-                    return defaultAction(MakeHtmlHelper(_viewContext, _viewData));
+                    return defaultAction(MakeHtmlHelper(_viewContext, _viewData, _tempData));
                 }
             }
 
@@ -195,14 +198,14 @@ namespace Microsoft.AspNet.Mvc.Rendering
             }
         }
 
-        private static IHtmlHelper MakeHtmlHelper(ViewContext viewContext, ViewDataDictionary viewData)
+        private static IHtmlHelper MakeHtmlHelper(ViewContext viewContext, ViewDataDictionary viewData, ITempDataDictionary tempData)
         {
             var newHelper = viewContext.HttpContext.RequestServices.GetRequiredService<IHtmlHelper>();
 
             var contextable = newHelper as ICanHasViewContext;
             if (contextable != null)
             {
-                var newViewContext = new ViewContext(viewContext, viewContext.View, viewData, viewContext.Writer);
+                var newViewContext = new ViewContext(viewContext, viewContext.View, viewData, tempData, viewContext.Writer);
                 contextable.Contextualize(newViewContext);
             }
 
