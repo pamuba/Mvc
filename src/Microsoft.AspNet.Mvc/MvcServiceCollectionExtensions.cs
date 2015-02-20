@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
@@ -132,6 +133,7 @@ namespace Microsoft.Framework.DependencyInjection
             services.AddOptions(configuration);
             services.AddDataProtection(configuration);
             services.AddRouting(configuration);
+            services.AddCors(configuration);
             services.AddAuthorization(configuration);
             services.Configure<RouteOptions>(routeOptions =>
                                                     routeOptions.ConstraintMap

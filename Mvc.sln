@@ -148,6 +148,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BestEffortLinkGenerationWeb
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LowercaseUrlsWebSite", "test\WebSites\LowercaseUrlsWebSite\LowercaseUrlsWebSite.kproj", "{BCDB13A6-7D6E-485E-8424-A156432B71AC}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CorsWebSite", "test\WebSites\CorsWebSite\CorsWebSite.kproj", "{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -866,6 +868,18 @@ Global
 		{BCDB13A6-7D6E-485E-8424-A156432B71AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BCDB13A6-7D6E-485E-8424-A156432B71AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{BCDB13A6-7D6E-485E-8424-A156432B71AC}.Release|x86.Build.0 = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Debug|x86.Build.0 = Debug|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|x86.ActiveCfg = Release|Any CPU
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -938,5 +952,6 @@ Global
 		{A19022EF-9BA3-4349-94E4-F48E13E1C8AE} = {16703B76-C9F7-4C75-AE6C-53D92E308E3C}
 		{B11C99C9-E577-4CA2-AC53-4F20EA71AD34} = {16703B76-C9F7-4C75-AE6C-53D92E308E3C}
 		{BCDB13A6-7D6E-485E-8424-A156432B71AC} = {16703B76-C9F7-4C75-AE6C-53D92E308E3C}
+		{94BA134D-04B3-48AA-BA55-5A4DB8640F2D} = {16703B76-C9F7-4C75-AE6C-53D92E308E3C}
 	EndGlobalSection
 EndGlobal
