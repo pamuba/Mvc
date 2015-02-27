@@ -16,7 +16,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
         public void GetClientValidationRules_WithMaxLength_ReturnsValidationParameters()
         {
             // Arrange
-            var provider = new DataAnnotationsModelMetadataProvider();
+            var provider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = provider.GetMetadataForProperty(typeof(string), "Length");
             var attribute = new StringLengthAttribute(8);
             var adapter = new StringLengthAttributeAdapter(attribute);
@@ -40,7 +40,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
         public void GetClientValidationRules_WithMinAndMaxLength_ReturnsValidationParameters()
         {
             // Arrange
-            var provider = new DataAnnotationsModelMetadataProvider();
+            var provider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = provider.GetMetadataForProperty(typeof(string), "Length");
             var attribute = new StringLengthAttribute(10) { MinimumLength = 3 };
             var adapter = new StringLengthAttributeAdapter(attribute);

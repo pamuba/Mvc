@@ -169,7 +169,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 { "class", "form-control" },
                 { "for", tagHelperOutputContent.ExpectedId }
             };
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
 
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, model);
@@ -237,7 +237,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var expectedPostContent = "original post-content";
             var expectedTagName = "label";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
             var modelExplorer = metadataProvider
                 .GetModelExplorerForType(typeof(Model), model: null)
                 .GetExplorerForProperty(nameof(Model.Text));

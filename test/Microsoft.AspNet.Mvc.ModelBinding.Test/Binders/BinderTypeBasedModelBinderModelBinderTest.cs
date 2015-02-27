@@ -34,8 +34,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding.Test
         public async Task BindModel_ReturnsTrueEvenIfSelectedBinderReturnsFalse()
         {
             // Arrange
-            var bindingContext = GetBindingContext(typeof(Person));
-            bindingContext.ModelMetadata.BinderType = typeof(FalseModelBinder);
+            var bindingContext = GetBindingContext(typeof(Person), binderType: typeof(FalseModelBinder));
 
             var binder = new BinderTypeBasedModelBinder();
 
@@ -50,8 +49,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding.Test
         public async Task BindModel_CallsBindAsync_OnProvidedModelBinder()
         {
             // Arrange
-            var bindingContext = GetBindingContext(typeof(Person));
-            bindingContext.ModelMetadata.BinderType = typeof(TrueModelBinder);
+            var bindingContext = GetBindingContext(typeof(Person), binderType: typeof(TrueModelBinder));
 
             var model = new Person();
             var innerModelBinder = new TrueModelBinder();
@@ -76,8 +74,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding.Test
         public async Task BindModel_CallsBindAsync_OnProvidedModelBinderProvider()
         {
             // Arrange
-            var bindingContext = GetBindingContext(typeof(Person));
-            bindingContext.ModelMetadata.BinderType = typeof(ModelBinderProvider);
+            var bindingContext = GetBindingContext(typeof(Person), binderType: typeof(ModelBinderProvider));
 
             var model = new Person();
             var provider = new ModelBinderProvider();
@@ -103,8 +100,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding.Test
         public async Task BindModel_ForNonModelBinderAndModelBinderProviderTypes_Throws()
         {
             // Arrange
-            var bindingContext = GetBindingContext(typeof(Person));
-            bindingContext.ModelMetadata.BinderType = typeof(Person);
+            var bindingContext = GetBindingContext(typeof(Person), binderType: typeof(Person));
             var binder = new BinderTypeBasedModelBinder();
 
             var expected = "The type '" + typeof(Person).FullName + "' must implement either " +
@@ -119,9 +115,11 @@ namespace Microsoft.AspNet.Mvc.ModelBinding.Test
             Assert.Equal(expected, ex.Message);
         }
 
-        private static ModelBindingContext GetBindingContext(Type modelType)
+        private static ModelBindingContext GetBindingContext(Type modelType, Type binderType = null)
         {
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
+            metadataProvider.ForType(modelType).BindingDetails(bd => bd.BinderType = binderType);
+
             var operationBindingContext = new OperationBindingContext
             {
                 MetadataProvider = metadataProvider,

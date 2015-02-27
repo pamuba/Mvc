@@ -97,7 +97,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             };
             var expectedTagName = "not-textarea";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
 
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, container);
@@ -161,7 +161,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var expectedPostContent = "original post-content";
             var expectedTagName = "textarea";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
             var modelExplorer = metadataProvider
                 .GetModelExplorerForType(typeof(Model), model: null)
                 .GetExplorerForProperty(nameof(Model.Text));

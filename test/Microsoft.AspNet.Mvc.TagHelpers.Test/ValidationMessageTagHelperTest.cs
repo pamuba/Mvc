@@ -21,7 +21,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         {
             // Arrange
             var expectedTagName = "not-span";
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
             var modelExpression = CreateModelExpression("Name");
             var validationMessageTagHelper = new ValidationMessageTagHelper
             {
@@ -267,17 +267,10 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
         private static ModelExpression CreateModelExpression(string name)
         {
-            var modelMetadataProvider = new Mock<IModelMetadataProvider>().Object;
+            var modelMetadataProvider = new EmptyModelMetadataProvider();
             return new ModelExpression(
                 name,
-                new ModelExplorer(
-                    modelMetadataProvider,
-                    new ModelMetadata(
-                        modelMetadataProvider,
-                        containerType: null,
-                        modelType: typeof(object),
-                        propertyName: string.Empty),
-                    model: null));
+                modelMetadataProvider.GetModelExplorerForType(typeof(object), model: null));
         }
 
         private static ViewContext CreateViewContext()
@@ -291,7 +284,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 actionContext,
                 Mock.Of<IView>(),
                 new ViewDataDictionary(
-                    new DataAnnotationsModelMetadataProvider()),
+                    new EmptyModelMetadataProvider()),
                 TextWriter.Null);
         }
     }

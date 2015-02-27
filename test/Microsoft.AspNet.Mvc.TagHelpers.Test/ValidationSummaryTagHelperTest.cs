@@ -34,7 +34,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         {
             // Arrange
             var expectedTagName = "not-div";
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
             var validationSummaryTagHelper = new ValidationSummaryTagHelper
             {
                 ValidationSummary = ValidationSummary.All,

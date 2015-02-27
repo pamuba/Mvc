@@ -126,7 +126,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 containerType,
                 model,
                 propertyName: nameof(Model.Text),
-                expressionName: nameAndId.Name);
+                expressionName: nameAndId.Name,
+                metadataProvider: null);
 
             // Act
             await tagHelper.ProcessAsync(context, output);
@@ -258,9 +259,15 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 SelfClosing = false,
             };
 
+            var metadataProvider = new TestModelMetadataProvider();
+            metadataProvider.ForProperty<Model>("Text").DisplayDetails(dd => dd.DataTypeName = dataTypeName);
+
             var htmlGenerator = new Mock<IHtmlGenerator>(MockBehavior.Strict);
-            var tagHelper = GetTagHelper(htmlGenerator.Object, model, nameof(Model.Text));
-            tagHelper.For.Metadata.DataTypeName = dataTypeName;
+            var tagHelper = GetTagHelper(
+                htmlGenerator.Object,
+                model,
+                nameof(Model.Text),
+                metadataProvider: metadataProvider);
             tagHelper.InputTypeName = inputTypeName;
 
             var tagBuilder = new TagBuilder("input")
@@ -346,9 +353,15 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 SelfClosing = false,
             };
 
+            var metadataProvider = new TestModelMetadataProvider();
+            metadataProvider.ForProperty<Model>("Text").DisplayDetails(dd => dd.DataTypeName = dataTypeName);
+
             var htmlGenerator = new Mock<IHtmlGenerator>(MockBehavior.Strict);
-            var tagHelper = GetTagHelper(htmlGenerator.Object, model, nameof(Model.Text));
-            tagHelper.For.Metadata.DataTypeName = dataTypeName;
+            var tagHelper = GetTagHelper(
+                htmlGenerator.Object, 
+                model, 
+                nameof(Model.Text),
+                metadataProvider: metadataProvider);
             tagHelper.InputTypeName = inputTypeName;
 
             var tagBuilder = new TagBuilder("input")
@@ -531,9 +544,15 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 SelfClosing = false,
             };
 
+            var metadataProvider = new TestModelMetadataProvider();
+            metadataProvider.ForProperty<Model>("Text").DisplayDetails(dd => dd.DataTypeName = dataTypeName);
+
             var htmlGenerator = new Mock<IHtmlGenerator>(MockBehavior.Strict);
-            var tagHelper = GetTagHelper(htmlGenerator.Object, model, nameof(Model.Text));
-            tagHelper.For.Metadata.DataTypeName = dataTypeName;
+            var tagHelper = GetTagHelper(
+                htmlGenerator.Object, 
+                model, 
+                nameof(Model.Text),
+                metadataProvider: metadataProvider);
             tagHelper.InputTypeName = inputTypeName;
 
             var tagBuilder = new TagBuilder("input")
@@ -618,15 +637,25 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             Assert.Equal(expectedTagName, output.TagName);
         }
 
-        private static InputTagHelper GetTagHelper(IHtmlGenerator htmlGenerator, object model, string propertyName)
+        private static InputTagHelper GetTagHelper(
+            IHtmlGenerator htmlGenerator, 
+            object model, 
+            string propertyName,
+            IModelMetadataProvider metadataProvider = null)
         {
+            if (metadataProvider == null)
+            {
+                metadataProvider = new TestModelMetadataProvider();
+            }
+
             return GetTagHelper(
                 htmlGenerator,
                 container: new Model(),
                 containerType: typeof(Model),
                 model: model,
                 propertyName: propertyName,
-                expressionName: propertyName);
+                expressionName: propertyName,
+                metadataProvider: metadataProvider);
         }
 
         [Fact]
@@ -662,10 +691,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             Type containerType,
             object model,
             string propertyName,
-            string expressionName)
+            string expressionName,
+            IModelMetadataProvider metadataProvider)
         {
-            var metadataProvider = new EmptyModelMetadataProvider();
-
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, container);
 

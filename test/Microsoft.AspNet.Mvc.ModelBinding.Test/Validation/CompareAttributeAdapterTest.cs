@@ -16,7 +16,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
         public void ClientRulesWithCompareAttribute_ErrorMessageUsesDisplayName()
         {
             // Arrange
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = metadataProvider.GetMetadataForProperty(typeof(PropertyDisplayNameModel), "MyProperty");
 
             var attribute = new CompareAttribute("OtherProperty");
@@ -40,7 +40,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
         public void ClientRulesWithCompareAttribute_ErrorMessageUsesPropertyName()
         {
             // Arrange
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = metadataProvider.GetMetadataForProperty(typeof(PropertyNameModel), "MyProperty");
             var attribute = new CompareAttribute("OtherProperty");
             var serviceCollection = new ServiceCollection();
@@ -60,7 +60,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
         public void ClientRulesWithCompareAttribute_ErrorMessageUsesOverride()
         {
             // Arrange
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = metadataProvider.GetMetadataForProperty( typeof(PropertyNameModel), "MyProperty");
             var attribute = new CompareAttribute("OtherProperty")
             {
@@ -89,7 +89,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
             }
 
             // Arrange
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = TestModelMetadataProvider.CreateDefaultProvider();
             var metadata = metadataProvider.GetMetadataForProperty(typeof(PropertyNameModel), "MyProperty");
             var attribute = new CompareAttribute("OtherProperty")
             {

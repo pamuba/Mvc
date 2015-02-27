@@ -188,7 +188,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var expectedPostContent = originalPostContent;
             var expectedTagName = "not-select";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, model);
 
@@ -272,7 +272,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var expectedPostContent = originalPostContent + expectedOptions;
             var expectedTagName = "select";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
 
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, model);
@@ -371,7 +371,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var expectedPostContent = originalPostContent + expectedOptions;
             var expectedTagName = "select";
 
-            var metadataProvider = new DataAnnotationsModelMetadataProvider();
+            var metadataProvider = new TestModelMetadataProvider();
 
             var containerMetadata = metadataProvider.GetMetadataForType(containerType);
             var containerExplorer = metadataProvider.GetModelExplorerForType(containerType, model);
