@@ -3,9 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc.Core;
 using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.Framework.Internal;
 using Microsoft.Framework.OptionsModel;
 
 namespace Microsoft.AspNet.Mvc
@@ -59,7 +61,47 @@ namespace Microsoft.AspNet.Mvc
 
             var actionArguments = new Dictionary<string, object>(StringComparer.Ordinal);
             await PopulateArgumentAsync(actionContext, actionBindingContext, actionArguments, parameterMetadata);
+
+            var propertyMetadata = new List<ModelMetadata>();
+            foreach (var property in actionDescriptor.BaseProperties)
+            {
+                var metadata = _modelMetadataProvider.GetMetadataForProperty(
+                    actionDescriptor.ControllerTypeInfo.AsType(),
+                    propertyName: property.Name);
+
+                if (metadata != null)
+                {
+                    UpdateParameterMetadata(metadata, property.BinderMetadata);
+                    parameterMetadata.Add(metadata);
+                }
+            }
+
+            var controllerProperties = new Dictionary<string, object>(StringComparer.Ordinal);
+            await PopulateArgumentAsync(actionContext, actionBindingContext, controllerProperties, propertyMetadata);
+
             return actionArguments;
+        }
+
+
+        private void ActivateProperties(object controller, Type containerType, Dictionary<string, object> properties)
+        {
+            foreach (var property in properties)
+            {
+                SetProperty(property.Key, containerType, controller, property.Value);
+            }
+        }
+
+        private void SetProperty(string propertyName, Type containerType, object container, object value)
+        {
+            var bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase;
+            var property = containerType.GetProperty(propertyName, bindingFlags);
+            if (property == null || !property.CanWrite)
+            {
+                // nothing to do
+                return;
+            }
+
+            property.SetValue(container, value);
         }
 
         private void UpdateParameterMetadata(ModelMetadata metadata, IBinderMetadata binderMetadata)

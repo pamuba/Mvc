@@ -30,6 +30,8 @@ namespace Microsoft.AspNet.Mvc
 
         public IList<ParameterDescriptor> Parameters { get; set; }
 
+        public IList<ParameterDescriptor> BaseProperties { get; set; }
+
         public IList<FilterDescriptor> FilterDescriptors { get; set; }
 
         /// <summary>

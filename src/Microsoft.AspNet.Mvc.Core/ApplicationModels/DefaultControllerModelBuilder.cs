@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNet.Mvc.Description;
 using Microsoft.AspNet.Mvc.Filters;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.Routing;
 using Microsoft.AspNet.Security;
 using Microsoft.Framework.Internal;
@@ -53,6 +54,16 @@ namespace Microsoft.AspNet.Mvc.ApplicationModels
                         actionModel.Controller = controllerModel;
                         controllerModel.Actions.Add(actionModel);
                     }
+                }
+            }
+
+            foreach (var propertyInfo in typeInfo.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var propertyModel = CreatePropertyModel(propertyInfo);
+                if (propertyModel != null)
+                {
+                    propertyModel.Controller = controllerModel;
+                    controllerModel.ControllerProperties.Add(propertyModel);
                 }
             }
 
@@ -118,6 +129,25 @@ namespace Microsoft.AspNet.Mvc.ApplicationModels
             }
 
             return controllerModel;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="PropertyModel"/> for the given <see cref="PropertyInfo"/>.
+        /// </summary>
+        /// <param name="propertyInfo">The <see cref="PropertyInfo"/>.</param>
+        /// <returns>A <see cref="PropertyModel"/> for the given <see cref="PropertyInfo"/>.</returns>
+        protected virtual PropertyModel CreatePropertyModel([NotNull] PropertyInfo propertyInfo)
+        {
+            // CoreCLR returns IEnumerable<Attribute> from GetCustomAttributes - the OfType<object>
+            // is needed to so that the result of ToArray() is object
+            var attributes = propertyInfo.GetCustomAttributes(inherit: true).OfType<object>().ToArray();
+            var propertyModel = new PropertyModel(propertyInfo, attributes);
+
+            propertyModel.BinderMetadata = attributes.OfType<IBinderMetadata>().FirstOrDefault();
+
+            propertyModel.PropertyName = propertyInfo.Name;
+
+            return propertyModel;
         }
 
         private static void AddRange<T>(IList<T> list, IEnumerable<T> items)
