@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -1199,7 +1198,7 @@ namespace Microsoft.AspNet.Mvc
         [NonAction]
         public virtual bool TryValidateModel([NotNull] object model)
         {
-            return TryValidateModel(model, prefix: null);
+            return TryValidateModel(model, prefix: string.Empty);
         }
 
         /// <summary>
@@ -1225,6 +1224,7 @@ namespace Microsoft.AspNet.Mvc
             var modelName = prefix ?? string.Empty;
 
             ModelState.ClearModelStateDictionaryForModel(modelExplorer.Metadata, modelName, MetadataProvider);
+
             var validationContext = new ModelValidationContext(
                 modelName,
                 BindingContext.ValidatorProvider,
