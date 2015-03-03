@@ -184,7 +184,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
 
         private bool ValidateElements(string currentKey, IEnumerable model, ValidationContext validationContext)
         {
-            var elementType = GetElementType(model.GetType());
+            var elementType = ModelBindingHelper.GetElementType(model.GetType());
             var elementMetadata = _modelMetadataProvider.GetMetadataForType(elementType);
 
             var validators = validationContext.ModelValidationContext.ValidatorProvider.GetValidators(elementMetadata);
@@ -233,6 +233,7 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
                 var modelValidationContext =
                         new ModelValidationContext(validationContext.ModelValidationContext, modelExplorer);
                 var modelState = validationContext.ModelValidationContext.ModelState;
+
                 var modelValidationState = modelState.GetValidationState(modelKey);
                 var fieldValidationState = modelState.GetFieldValidationState(modelKey);
 
@@ -281,26 +282,6 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
             }
 
             return filters.Any(filter => filter.IsTypeExcluded(type));
-        }
-
-        private static Type GetElementType(Type type)
-        {
-            Debug.Assert(typeof(IEnumerable).IsAssignableFrom(type));
-            if (type.IsArray)
-            {
-                return type.GetElementType();
-            }
-
-            foreach (var implementedInterface in type.GetInterfaces())
-            {
-                if (implementedInterface.IsGenericType() &&
-                    implementedInterface.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                {
-                    return implementedInterface.GetGenericArguments()[0];
-                }
-            }
-
-            return typeof(object);
         }
 
         private class ValidationContext
