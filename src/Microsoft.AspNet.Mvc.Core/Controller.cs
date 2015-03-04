@@ -188,7 +188,7 @@ namespace Microsoft.AspNet.Mvc
         /// <summary>
         /// Gets or sets <see cref="ITempDataDictionary"/> used by <see cref="ViewResult"/>.
         /// </summary>
-        [Activate]
+        [FromServices]
         public ITempDataDictionary TempData { get; set; }
 
         /// <summary>

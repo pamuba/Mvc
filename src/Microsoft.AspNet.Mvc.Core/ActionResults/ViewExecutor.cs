@@ -22,7 +22,7 @@ namespace Microsoft.AspNet.Mvc
         /// <param name="view">The <see cref="IView"/> to render.</param>
         /// <param name="actionContext">The <see cref="ActionContext"/> for the current executing action.</param>
         /// <param name="viewData">The <see cref="ViewDataDictionary"/> for the view being rendered.</param>
-        /// /// <param name="tempData">The <see cref="ITempDataDictionary"/> for the view being rendered.</param>
+        /// <param name="tempData">The <see cref="ITempDataDictionary"/> for the view being rendered.</param>
         /// <returns>A <see cref="Task"/> that represents the asychronous rendering.</returns>
         public static async Task ExecuteAsync([NotNull] IView view,
                                               [NotNull] ActionContext actionContext,

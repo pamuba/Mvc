@@ -87,6 +87,7 @@ namespace MvcSample.Web
                     services.AddSingleton<PassThroughAttribute>();
                     services.AddSingleton<UserNameService>();
                     services.AddTransient<ITestService, TestService>();
+                    services.AddCachingServices();
                     services.AddSessionServices();
                     
                     // Setup services with a test AssemblyProvider so that only the

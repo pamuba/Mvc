@@ -115,15 +115,15 @@ namespace MvcSample.Web
 
         public ActionResult AddTempData()
         {
-            TempData["controllerdata"] = "Temporary data from controller through ViewBag.";
-            TempData["tempdata"] = "Temporary data directly from TempData.";
+            TempData["controllerData"] = "Temporary data from controller through ViewBag.";
+            TempData["tempData"] = "Temporary data directly from TempData.";
             return RedirectToAction("UseTempData");
         }
 
         public ActionResult UseTempData()
         {
-            var data = TempData["controllerdata"];
-            ViewBag.Tempdata = data;
+            var data = TempData["controllerData"];
+            ViewBag.TempData = data;
 
             return View("MyView", CreateUser());
         }

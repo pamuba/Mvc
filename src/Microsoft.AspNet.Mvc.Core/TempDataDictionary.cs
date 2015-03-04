@@ -29,7 +29,6 @@ namespace Microsoft.AspNet.Mvc
             _provider = provider;
             _loaded = false;
             _contextAccessor = context;
-            _data = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
 
         public int Count
@@ -61,7 +60,11 @@ namespace Microsoft.AspNet.Mvc
 
         bool ICollection<KeyValuePair<string, object>>.IsReadOnly
         {
-            get { return ((ICollection<KeyValuePair<string, object>>)_data).IsReadOnly; }
+            get
+            {
+                Load();
+                return ((ICollection<KeyValuePair<string, object>>)_data).IsReadOnly;
+            }
         }
 
         public object this[string key]

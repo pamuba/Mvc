@@ -2071,7 +2071,8 @@ namespace Microsoft.AspNet.Mvc
                     new MockModelBinderProvider() { ModelBinders = new List<IModelBinder>() { binder.Object } },
                     new MockModelValidatorProviderProvider(),
                     new MockValueProviderFactoryProvider(),
-                    new MockScopedInstance<ActionBindingContext>());
+                    new MockScopedInstance<ActionBindingContext>(),
+                    Mock.Of<ITempDataDictionary>());
 
             // Act
             await invoker.InvokeAsync();
@@ -2179,7 +2180,8 @@ namespace Microsoft.AspNet.Mvc
                       modelBinderProvider,
                       modelValidatorProviderProvider,
                       valueProviderFactoryProvider,
-                      actionBindingContext)
+                      actionBindingContext,
+                      Mock.Of<ITempDataDictionary>())
             {
                 ControllerFactory = controllerFactory;
             }
